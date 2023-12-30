@@ -1,0 +1,23 @@
+General Plan
+Series of puzzle rooms
+
+Basic premise:
+Limited number of "Charges"
+Use "Charges" to activate magical effects to solve puzzles.
+
+Possible effets: 
+"Freeze" blocks of ice for platforming
+"Grow" vines to climb up
+
+Moss to prevent fall damage?
+Wind to launch across gaps?
+Move branches/roots to allow access to other areas (open door)
+
+Reclaiming a "Charge" undoes the effect it was used to activate (ice block melts, vines return to soil, etc)
+Increase in number of charges each level alonside new effects.
+Effects shown by coloured particle effects.
+Visual design to be forest area.
+
+Reclaim charge: most recent one first? oldest? allow for specific ones to be deactivated?
+--Trying to use charge on already charged effect reclaims charge?-coupled with button press to reclaim all charges at once?--
+
