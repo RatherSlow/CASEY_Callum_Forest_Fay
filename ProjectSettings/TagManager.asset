@@ -3,7 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Spell
+  - LandMagic
+  - Environment
+  - EnterPortal
+  - ExitPortal
   layers:
   - Default
   - TransparentFX
@@ -11,7 +16,7 @@ TagManager:
   - Player
   - Water
   - UI
-  - 
+  - Magic
   - 
   - 
   - 

@@ -6,31 +6,36 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     CharacterController characterController;
-    Transform playerContainer, cameraContainer;
+    //InputActions inputActions;
+    //InputAction jump;
 
     [Header("Settings")]
     public float mouseSensitivity = 100f;    
     public float moveSpeed;
     public float jumpSpeed = 10f;
     public float gravity = 20.0f;
-    public float lookUpClamp = -90f;
-    public float lookDownClamp = 90f;
+    public float lookUpClamp = 30f;
+    public float lookDownClamp = 60f;
 
     [Header("Spell Casting")]
     public GameObject spell;
     public float spellForce;
 
     [Header("References")]
+    public Transform playerContainer;
+    public Transform cameraContainer;
     public Transform attackPoint;
 
+    float rotateX, rotateY;
     private Vector3 moveDirection = Vector3.zero;
-   
+    bool isClimbable = false;
 
     // Start is called before the first frame update
     void Start()
     {
         Cursor.visible = false;
         characterController = GetComponent<CharacterController>();
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
@@ -42,36 +47,32 @@ public class PlayerMovement : MonoBehaviour
 
     private void VisionControl()
     {
-        // Rotate player based on mouse input
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        rotateX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+        rotateY -= Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
-        // Rotate player horizontally
-        playerContainer.Rotate(Vector3.up * mouseX);
+        rotateY = Mathf.Clamp(rotateY, -lookUpClamp, lookDownClamp);
 
-        // Rotate camera vertically
-        cameraContainer.Rotate(Vector3.left * mouseY);
+        transform.Rotate(0f, rotateX, 0f);
 
-        // Ensure camera does not over-rotate vertically
-        Vector3 currentRotation = cameraContainer.localRotation.eulerAngles;
-        currentRotation.x = Mathf.Clamp(currentRotation.x, 0f, 25f); // Adjust the maximum vertical rotation here
-        cameraContainer.localRotation = Quaternion.Euler(currentRotation);
+        cameraContainer.transform.localRotation = Quaternion.Euler(rotateY, 0f, 0f);
 
         // Check for player input to cast spell
         if (Input.GetMouseButtonDown(0)) // Assuming left mouse button for casting spell
         {
             target(); // Call target method to cast spell
+            Debug.Log("Spellcast");
         }
     }
 
     private void Movement()
-    {
+    {        
         moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
         moveDirection = transform.TransformDirection(moveDirection);
         moveDirection *= moveSpeed;
         moveDirection.y -= gravity * Time.deltaTime;
-        characterController.Move(moveDirection * Time.deltaTime);
+        characterController.Move(moveDirection * Time.deltaTime);                
     }
+    
 
     private void target()
     {
